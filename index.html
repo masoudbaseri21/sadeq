@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#0b1220" />
+    <title>احسان به دنیا اومد 💙</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --night: #0a0f1e;
+        --night-2: #121a30;
+        --panel: rgba(255, 255, 255, 0.045);
+        --star: #ffe3a1;
+        --sky: #7fc2ff;
+        --blush: #ff8fa8;
+        --blush-2: #ff6b93;
+        --gold: #ffcf7a;
+        --text: #f4f2ea;
+        --muted: #a7b0c7;
+      }
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      body {
+        min-height: 100vh;
+        min-height: 100dvh;
+        background: radial-gradient(
+            ellipse 90% 60% at 50% -10%,
+            #1a2547 0%,
+            transparent 60%
+          ),
+          linear-gradient(
+            180deg,
+            var(--night) 0%,
+            var(--night-2) 55%,
+            #0d1424 100%
+          );
+        color: var(--text);
+        font-family: "Vazirmatn", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow-x: hidden;
+        position: relative;
+        padding: 32px 18px;
+      }
+
+      /* starfield */
+      .sky {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        border-radius: 50%;
+        background: var(--star);
+        opacity: 0.5;
+        animation: twinkle 3.2s ease-in-out infinite;
+      }
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.15;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.95;
+          transform: scale(1.6);
+        }
+      }
+      .moon {
+        position: fixed;
+        top: 8%;
+        left: 12%;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        z-index: 0;
+        background: radial-gradient(
+          circle at 35% 35%,
+          #fff6d9,
+          var(--gold) 70%
+        );
+        box-shadow: 0 0 50px rgba(255, 207, 122, 0.45),
+          0 0 120px rgba(255, 207, 122, 0.15);
+      }
+      .moon::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: var(--night);
+        transform: translate(14px, -10px) scale(1.02);
+      }
+
+      .card {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 460px;
+        background: var(--panel);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: 28px;
+        padding: 38px 26px 32px;
+        backdrop-filter: blur(14px);
+        text-align: center;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--gold);
+        background: rgba(255, 207, 122, 0.1);
+        border: 1px solid rgba(255, 207, 122, 0.25);
+        padding: 7px 16px;
+        border-radius: 999px;
+        letter-spacing: 0.2px;
+        margin-bottom: 22px;
+      }
+
+      .headline {
+        font-family: "Lalezar", "Vazirmatn", sans-serif;
+        font-weight: 400;
+        font-size: clamp(38px, 11vw, 56px);
+        line-height: 1.15;
+        margin: 0 0 6px;
+        background: linear-gradient(180deg, #fff 10%, var(--sky) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 40px rgba(127, 194, 255, 0.25);
+      }
+      .headline .name {
+        display: block;
+        font-size: clamp(56px, 17vw, 84px);
+        margin-top: 2px;
+        background: linear-gradient(180deg, var(--gold) 0%, var(--blush) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        filter: drop-shadow(0 0 26px rgba(255, 143, 168, 0.35));
+      }
+
+      .date-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 18px 0 4px;
+        background: rgba(127, 194, 255, 0.1);
+        border: 1px solid rgba(127, 194, 255, 0.28);
+        color: var(--sky);
+        font-weight: 700;
+        font-size: 14px;
+        padding: 9px 18px;
+        border-radius: 999px;
+      }
+
+      .desc {
+        color: var(--muted);
+        font-size: 14.5px;
+        line-height: 2;
+        margin: 18px auto 6px;
+        max-width: 340px;
+      }
+
+      .heart-zone {
+        margin: 30px 0 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .heart-btn {
+        position: relative;
+        width: 112px;
+        height: 100px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform 0.15s ease;
+      }
+      .heart-btn:active {
+        transform: scale(0.92);
+      }
+      .heart-btn svg {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 10px 26px rgba(255, 107, 147, 0.45));
+        transition: filter 0.2s ease;
+      }
+      .heart-btn:hover svg {
+        filter: drop-shadow(0 12px 32px rgba(255, 107, 147, 0.65));
+      }
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        15% {
+          transform: scale(1.08);
+        }
+        30% {
+          transform: scale(0.98);
+        }
+        45% {
+          transform: scale(1.05);
+        }
+      }
+      .heart-btn.idle svg {
+        animation: heartbeat 2.6s ease-in-out infinite;
+      }
+
+      .heart-cta {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--blush);
+        letter-spacing: 0.2px;
+      }
+
+      .signature {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px dashed rgba(255, 255, 255, 0.14);
+        font-size: 12.5px;
+        color: var(--muted);
+        line-height: 1.9;
+      }
+      .signature b {
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      /* falling hearts (click-triggered) */
+      .rain-heart {
+        position: fixed;
+        top: -40px;
+        z-index: 5;
+        pointer-events: none;
+        will-change: transform, opacity;
+        animation-name: fall;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+      }
+      @keyframes fall {
+        0% {
+          transform: translateY(0) translateX(0) rotate(0deg);
+          opacity: 0;
+        }
+        8% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(112vh) translateX(var(--drift))
+            rotate(var(--spin));
+          opacity: 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .star,
+        .heart-btn.idle svg {
+          animation: none;
+        }
+        .rain-heart {
+          animation-duration: 0.01s !important;
+          opacity: 0 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sky" id="sky"></div>
+    <div class="moon"></div>
+
+    <div class="card">
+      <span class="eyebrow">🎉 تبریک به آقا محمدصادق توسلی عزیز</span>
+
+      <h1 class="headline">
+        تبریک تولد گل پسرت
+        <span class="name">آقااحسان</span>
+      </h1>
+
+      <div class="date-badge">📅 ۱۸ مرداد ۱۴۰۵</div>
+
+      <p class="desc">
+        محمدصادق جان، تولد پسر نازنینت احسان رو از ته دل بهت تبریک می‌گم. خداوند
+        حافظش باشه و همیشه شادی و سلامتی همراهتون باشه 💙
+      </p>
+
+      <div class="heart-zone">
+        <button
+          class="heart-btn idle"
+          id="heartBtn"
+          aria-label="قلبتو نثار احسان کن"
+        >
+          <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="heartGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffcf7a"></stop>
+                <stop offset="100%" stop-color="#ff6b93"></stop>
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#heartGrad)"
+              d="M50 88 C 20 66, 2 46, 2 27 C 2 10, 16 0, 30 0 C 40 0, 47 6, 50 13 C 53 6, 60 0, 70 0 C 84 0, 98 10, 98 27 C 98 46, 80 66, 50 88 Z"
+            ></path>
+          </svg>
+        </button>
+        <span class="heart-cta">لمس کن</span>
+      </div>
+
+      <div class="signature">
+        با عشق و آرزوی سلامتی و شادی همیشگی 💙<br />
+        از طرف <b>مسعود باصری بخشایش</b>
+      </div>
+    </div>
+
+    <script>
+      // starfield
+      const sky = document.getElementById("sky");
+      const STAR_COUNT = 70;
+      for (let i = 0; i < STAR_COUNT; i++) {
+        const s = document.createElement("div");
+        s.className = "star";
+        s.style.left = Math.random() * 100 + "vw";
+        s.style.top = Math.random() * 100 + "vh";
+        s.style.animationDelay = Math.random() * 3.2 + "s";
+        s.style.width = s.style.height = (Math.random() < 0.15 ? 3 : 2) + "px";
+        sky.appendChild(s);
+      }
+
+      // heart rain
+      const heartBtn = document.getElementById("heartBtn");
+      const COLORS = ["#ff6b93", "#ffcf7a", "#7fc2ff", "#ff8fa8"];
+
+      function heartSVG(color) {
+        return (
+          '<svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">' +
+          '<path fill="' +
+          color +
+          '" d="M50 88 C 20 66, 2 46, 2 27 C 2 10, 16 0, 30 0 C 40 0, 47 6, 50 13 C 53 6, 60 0, 70 0 C 84 0, 98 10, 98 27 C 98 46, 80 66, 50 88 Z"></path>' +
+          "</svg>"
+        );
+      }
+
+      function spawnHearts(count) {
+        for (let i = 0; i < count; i++) {
+          const el = document.createElement("div");
+          el.className = "rain-heart";
+          const size = 14 + Math.random() * 20;
+          const left = Math.random() * 100;
+          const duration = 3.2 + Math.random() * 2.4;
+          const delay = Math.random() * 0.3;
+          const drift = Math.random() * 140 - 70 + "px";
+          const spin = Math.random() * 480 - 240 + "deg";
+          const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+
+          el.style.left = left + "vw";
+          el.style.width = size + "px";
+          el.style.height = size * 0.9 + "px";
+          el.style.setProperty("--drift", drift);
+          el.style.setProperty("--spin", spin);
+          el.style.animationDuration = duration + "s";
+          el.style.animationDelay = delay + "s";
+          el.style.opacity = "0.9";
+          el.innerHTML = heartSVG(color);
+
+          el.addEventListener("animationend", () => el.remove());
+          document.body.appendChild(el);
+        }
+      }
+
+      let raining = false;
+      function startHeartRain(totalMs) {
+        if (raining) return;
+        raining = true;
+        const stopAt = Date.now() + totalMs;
+        (function tick() {
+          spawnHearts(7);
+          if (Date.now() < stopAt) {
+            setTimeout(tick, 220);
+          } else {
+            raining = false;
+          }
+        })();
+      }
+
+      // ---- آهنگ «تولدت مبارک» (ساخته‌شده لحظه‌ای با Web Audio، بدون نیاز به فایل صوتی) ----
+      let audioCtx = null;
+      function ensureAudio() {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+        return audioCtx;
+      }
+      function playNote(ctx, freq, startTime, duration) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.value = freq;
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        gain.gain.setValueAtTime(0.0001, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.3, startTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.03);
+      }
+      const NOTE = {
+        G4: 392.0,
+        A4: 440.0,
+        B4: 493.88,
+        C5: 523.25,
+        D5: 587.33,
+        E5: 659.25,
+        F5: 698.46,
+        G5: 783.99,
+      };
+      const MELODY = [
+        [NOTE.G4, 0.28],
+        [NOTE.G4, 0.28],
+        [NOTE.A4, 0.55],
+        [NOTE.G4, 0.55],
+        [NOTE.C5, 0.55],
+        [NOTE.B4, 1.05],
+        [NOTE.G4, 0.28],
+        [NOTE.G4, 0.28],
+        [NOTE.A4, 0.55],
+        [NOTE.G4, 0.55],
+        [NOTE.D5, 0.55],
+        [NOTE.C5, 1.05],
+        [NOTE.G4, 0.28],
+        [NOTE.G4, 0.28],
+        [NOTE.G5, 0.55],
+        [NOTE.E5, 0.55],
+        [NOTE.C5, 0.55],
+        [NOTE.B4, 0.55],
+        [NOTE.A4, 1.05],
+        [NOTE.F5, 0.28],
+        [NOTE.F5, 0.28],
+        [NOTE.E5, 0.55],
+        [NOTE.C5, 0.55],
+        [NOTE.D5, 0.55],
+        [NOTE.C5, 1.05],
+      ];
+      function playBirthdaySong() {
+        const ctx = ensureAudio();
+        let t = ctx.currentTime + 0.05;
+        MELODY.forEach(([freq, dur]) => {
+          playNote(ctx, freq, t, dur * 0.92);
+          t += dur;
+        });
+      }
+
+      heartBtn.addEventListener("click", () => {
+        heartBtn.classList.remove("idle");
+        void heartBtn.offsetWidth;
+        heartBtn.classList.add("idle");
+        startHeartRain(10000);
+        try {
+          playBirthdaySong();
+        } catch (e) {}
+      });
+    </script>
+  </body>
+</html>
