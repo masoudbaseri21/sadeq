@@ -297,6 +297,18 @@
     <div class="sky" id="sky"></div>
     <div class="moon"></div>
 
+    <!--
+      ================== جای آهنگ اینجاست ==================
+      آدرس فایل صوتی خودت (حدود ۳۴ ثانیه) رو به‌جای
+      "PUT-YOUR-AUDIO-FILE-HERE.mp3" بذار.
+      اگه فایل کنار همین html هست فقط اسمشو بنویس، مثلا:
+      src="birthday-song.mp3"
+      =========================================================
+    -->
+    <audio id="bdaySong" preload="auto">
+      <source src="baby.mp3" type="audio/mpeg" />
+    </audio>
+
     <div class="card">
       <span class="eyebrow">🎉 تبریک به آقا محمدصادق توسلی عزیز</span>
 
@@ -354,9 +366,10 @@
         sky.appendChild(s);
       }
 
-      // heart rain
+      // heart rain — مدت بارش هم‌زمان با طول آهنگ (۳۴ ثانیه) تنظیم شده
       const heartBtn = document.getElementById("heartBtn");
       const COLORS = ["#ff6b93", "#ffcf7a", "#7fc2ff", "#ff8fa8"];
+      const SONG_DURATION_MS = 34000; // اگه طول آهنگت فرق داره، همین عدد رو (به میلی‌ثانیه) عوض کن
 
       function heartSVG(color) {
         return (
@@ -410,84 +423,22 @@
         })();
       }
 
-      // ---- آهنگ «تولدت مبارک» (ساخته‌شده لحظه‌ای با Web Audio، بدون نیاز به فایل صوتی) ----
-      let audioCtx = null;
-      function ensureAudio() {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === "suspended") {
-          audioCtx.resume();
-        }
-        return audioCtx;
-      }
-      function playNote(ctx, freq, startTime, duration) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "triangle";
-        osc.frequency.value = freq;
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        gain.gain.setValueAtTime(0.0001, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.3, startTime + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-        osc.start(startTime);
-        osc.stop(startTime + duration + 0.03);
-      }
-      const NOTE = {
-        G4: 392.0,
-        A4: 440.0,
-        B4: 493.88,
-        C5: 523.25,
-        D5: 587.33,
-        E5: 659.25,
-        F5: 698.46,
-        G5: 783.99,
-      };
-      const MELODY = [
-        [NOTE.G4, 0.28],
-        [NOTE.G4, 0.28],
-        [NOTE.A4, 0.55],
-        [NOTE.G4, 0.55],
-        [NOTE.C5, 0.55],
-        [NOTE.B4, 1.05],
-        [NOTE.G4, 0.28],
-        [NOTE.G4, 0.28],
-        [NOTE.A4, 0.55],
-        [NOTE.G4, 0.55],
-        [NOTE.D5, 0.55],
-        [NOTE.C5, 1.05],
-        [NOTE.G4, 0.28],
-        [NOTE.G4, 0.28],
-        [NOTE.G5, 0.55],
-        [NOTE.E5, 0.55],
-        [NOTE.C5, 0.55],
-        [NOTE.B4, 0.55],
-        [NOTE.A4, 1.05],
-        [NOTE.F5, 0.28],
-        [NOTE.F5, 0.28],
-        [NOTE.E5, 0.55],
-        [NOTE.C5, 0.55],
-        [NOTE.D5, 0.55],
-        [NOTE.C5, 1.05],
-      ];
+      // ---- پخش آهنگ خودت (فایل صوتی که بالای صفحه در تگ audio گذاشتی) ----
+      const bdaySong = document.getElementById("bdaySong");
+
       function playBirthdaySong() {
-        const ctx = ensureAudio();
-        let t = ctx.currentTime + 0.05;
-        MELODY.forEach(([freq, dur]) => {
-          playNote(ctx, freq, t, dur * 0.92);
-          t += dur;
-        });
+        try {
+          bdaySong.currentTime = 0;
+          bdaySong.play();
+        } catch (e) {}
       }
 
       heartBtn.addEventListener("click", () => {
         heartBtn.classList.remove("idle");
         void heartBtn.offsetWidth;
         heartBtn.classList.add("idle");
-        startHeartRain(10000);
-        try {
-          playBirthdaySong();
-        } catch (e) {}
+        startHeartRain(SONG_DURATION_MS);
+        playBirthdaySong();
       });
     </script>
   </body>
