@@ -366,10 +366,9 @@
         sky.appendChild(s);
       }
 
-      // heart rain — مدت بارش هم‌زمان با طول آهنگ (۳۴ ثانیه) تنظیم شده
+      // heart rain — حالا دقیقاً هم‌زمان با پخش واقعی آهنگ کار می‌کنه (نه یه عدد ثابت)
       const heartBtn = document.getElementById("heartBtn");
       const COLORS = ["#ff6b93", "#ffcf7a", "#7fc2ff", "#ff8fa8"];
-      const SONG_DURATION_MS = 34000; // اگه طول آهنگت فرق داره، همین عدد رو (به میلی‌ثانیه) عوض کن
 
       function heartSVG(color) {
         return (
@@ -408,36 +407,52 @@
         }
       }
 
-      let raining = false;
-      function startHeartRain(totalMs) {
-        if (raining) return;
-        raining = true;
-        const stopAt = Date.now() + totalMs;
-        (function tick() {
-          spawnHearts(7);
-          if (Date.now() < stopAt) {
-            setTimeout(tick, 220);
-          } else {
-            raining = false;
-          }
-        })();
+      let rainInterval = null;
+      function startHeartRain() {
+        stopHeartRain();
+        spawnHearts(7);
+        rainInterval = setInterval(() => spawnHearts(7), 220);
+      }
+      function stopHeartRain() {
+        if (rainInterval) {
+          clearInterval(rainInterval);
+          rainInterval = null;
+        }
       }
 
       // ---- پخش آهنگ خودت (فایل صوتی که بالای صفحه در تگ audio گذاشتی) ----
       const bdaySong = document.getElementById("bdaySong");
 
+      // دقیقاً همون لحظه‌ای که آهنگ تموم می‌شه یا متوقف می‌شه، بارش قلب هم قطع می‌شه
+      bdaySong.addEventListener("ended", stopHeartRain);
+      bdaySong.addEventListener("pause", stopHeartRain);
+
       function playBirthdaySong() {
         try {
           bdaySong.currentTime = 0;
-          bdaySong.play();
-        } catch (e) {}
+          const playPromise = bdaySong.play();
+          if (playPromise && typeof playPromise.then === "function") {
+            playPromise
+              .then(() => startHeartRain())
+              .catch(() => {
+                // اگه پخش خودکار بلاک شد (مثلاً بعضی مرورگرهای موبایل)،
+                // بازم چند ثانیه بارش نشون بده که کلیک بی‌نتیجه نمونه
+                startHeartRain();
+                setTimeout(stopHeartRain, 4000);
+              });
+          } else {
+            startHeartRain();
+          }
+        } catch (e) {
+          startHeartRain();
+          setTimeout(stopHeartRain, 4000);
+        }
       }
 
       heartBtn.addEventListener("click", () => {
         heartBtn.classList.remove("idle");
         void heartBtn.offsetWidth;
         heartBtn.classList.add("idle");
-        startHeartRain(SONG_DURATION_MS);
         playBirthdaySong();
       });
     </script>
